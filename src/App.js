@@ -1,65 +1,56 @@
 import React, { useState } from 'react';
-import { Typography, Toolbar, Grid, withStyles, Tabs, Tab, Paper } from '@material-ui/core';
-import Team from "./components/Team";
-import Game from "./components/Game";
-import './App.css';
-import "bootstrap/dist/css/bootstrap.min.css";
+import Teams from "./components/Teams";
+import Games from "./components/Games";
+// import Typography from 'Typography';
+import { Toolbar, Grid, withStyles,Typography, Tabs, Tab, Paper } from '@material-ui/core';
 
-// Styling
+
 const style = {
-    title: {
-      width: "100%",
-      color: "#F86E1D",
-      marginTop: "60px",
-      textAlign: "center",
-      fontWeight: "500"
-    },
-
-    tabs: {
-      background: "#F86E1D",
-      color: "#FFFFFF"
-    }
+  heading: {
+    width: "100%",
+    textAlign: "center",
+    marginTop: "5rem",
+    color: "#f16d32"
+  },
+  tabSelected: {
+    background: "#f16d32",
+    color: "white"
+  }
 };
 
-// Change state of tab
-function Main(props) {
+function App(props) {
   const { classes } = props;
-  const [tabSelected, setTabSelected] = useState(0);
-
-  function tabChange(e, values) {
-    setTabSelected(values);
+  const [currentTab, setCurrentTab] = useState(0);
+  function handleTabChange(e, val) {
+    setCurrentTab(val);
   }
-
   return (
-    <div className="tab-page">
+    <div className="App">
       <Toolbar>
-        <Grid container justify="center" className={classes.title}>
-          <Typography variant="h4">
+        <Grid container justify="center" className={classes.heading}>
+          <Typography variant="h3" color="inherit">
             NBA REPO
           </Typography>
         </Grid>
       </Toolbar>
-
-      {/* Data container */}
-      <Grid container justify="center" style={{marginTop: "85px"}}>
+      <Grid container justify="center" spacing={40} style={{marginTop:"5rem"}}>
         <Grid item xs={12} lg={9} md={10}>
           <Paper>
-            <Tabs value={tabSelected} onChange={tabChange} variant="fullWidth">
-              <Tab label="NBA Teams" classes={{ selected: classes.tabs }} style={{fontWeight:"500", boxShadow: "0 2px 2px #ccc", border: "1px solid #eee"}} />
-              <Tab label="NBA Games" classes={{ selected: classes.tabs }} style={{fontWeight:"500", boxShadow: "0 2px 2px #ccc", border: "1px solid #eee"}} />
-            </Tabs>
+          <Tabs
+            value={currentTab}
+            onChange={handleTabChange}
+            variant="fullWidth"
+            centered
+            style={{ width: "100%" }}
+          >
+            <Tab label="NBA Teams" classes={{ selected: classes.tabSelected }} />
+            <Tab label="NBA Games" classes={{ selected: classes.tabSelected }} />
+          </Tabs>
           </Paper>
-
-          <Grid container justify="center" style={{marginTop: "25px", boxShadow: "0 2px 2px #ccc", border: "1px solid #eee"}}>
-            <Grid item xs={12} lg={9} md={10}>
-            </Grid>
-          </Grid>
         </Grid>
-
-        {/* Tab selection */}
-        <Grid item xs={12} lg={9} md={10} style={{marginTop: "20px"}}>
+        <Grid item xs={12} lg={9} md={10}>
           {
-            tabSelected == 0 ? <Team></Team> : <Game></Game>
+            currentTab === 0?<Teams></Teams>:<Games></Games>
           }
         </Grid>
       </Grid>
@@ -67,4 +58,4 @@ function Main(props) {
   );
 }
 
-export default withStyles(style)(Main);
+export default withStyles(style)(App);
